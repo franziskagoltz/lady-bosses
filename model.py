@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-# ----- Model definitions ----- #
+# ----------- Model definitions ----------- #
 class Business(object):
     """businesses to be shown on ladybosses"""
 
@@ -27,3 +27,15 @@ class Category(object):
                          nullable=False)
 
     businesses = db.relationship("Business", backref=db.backref("businesses"))
+
+
+# ----------- Helper Functions ----------- #
+def connect_to_db(app, db_uri='postgresql:///ladybosses'):
+    """Connect the database to our Flask app."""
+
+    # Configure to use our PostgreSQL database
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    db.app = app
+    db.init_app(app)
