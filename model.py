@@ -7,7 +7,7 @@ db = SQLAlchemy()
 
 
 # ----------- Model definitions ----------- #
-class Business(object):
+class Business(db.Model):
     """businesses to be shown on ladybosses"""
 
     __tablename__ = "businesses"
@@ -17,7 +17,7 @@ class Business(object):
     address = db.Column(db.String(150))
 
 
-class Category(object):
+class Category(db.Model):
     """categories of the businesses in the db"""
 
     __tablename__ = "categories"
@@ -46,6 +46,7 @@ if __name__ == "__main__":
     # create tables
 
     from server import app
-    connect_to_db(app, "postgresql:///ladybosses")
+    connect_to_db(app)
     print "Connected to DB."
     db.create_all()
+    print "tables created"
