@@ -39,3 +39,13 @@ def connect_to_db(app, db_uri='postgresql:///ladybosses'):
 
     db.app = app
     db.init_app(app)
+
+
+if __name__ == "__main__":
+    # only runs when we run file directly, so we are assuming we want to
+    # create tables
+
+    from server import app
+    connect_to_db(app, "postgresql:///ladybosses")
+    print "Connected to DB."
+    db.create_all()
