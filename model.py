@@ -7,6 +7,7 @@ db = SQLAlchemy()
 
 
 # ----------- Model definitions ----------- #
+
 class Business(db.Model):
     """businesses to be shown on ladybosses"""
 
@@ -16,20 +17,35 @@ class Business(db.Model):
     name = db.Column(db.String(150), nullable=False)
     address = db.Column(db.String(150))
 
+    business_categories = db.relationship("Category", secondary="business_categories",
+                                          backref=db.backref("categories"))
+
+    @classmethod
+    def get_business_by_id(name):
+        """return business_id by name"""
+
+        return Business.query.filter_by(name=name).one().business_id
+
 
 class Category(db.Model):
     """categories of the businesses in the db"""
 
     __tablename__ = "categories"
 
-    business_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    category = db.Column(db.Integer, db.ForeignKey("businesses.business_id"),
-                         nullable=False)
+    category_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    category = db.Column(db.String(100))
 
-    businesses = db.relationship("Business", backref=db.backref("businesses"))
+
+# association table between Category and Business
+business_categories = db.Table("business_categories",
+                               db.Column("business_id", db.Integer,
+                                         db.ForeignKey("businesses.business_id")),
+                               db.Column("category_id", db.Integer,
+                                         db.ForeignKey("categories.category_id")))
 
 
 # ----------- Helper Functions ----------- #
+
 def connect_to_db(app, db_uri='postgresql:///ladybosses'):
     """Connect the database to our Flask app."""
 
@@ -49,4 +65,3 @@ if __name__ == "__main__":
     connect_to_db(app)
     print "Connected to DB."
     db.create_all()
-    print "tables created"
