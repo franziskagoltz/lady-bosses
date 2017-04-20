@@ -2,7 +2,7 @@
 
 from jinja2 import StrictUndefined
 from flask import Flask, jsonify, render_template, redirect, request, flash, session, g
-from Model import connect_to_db
+from Model import connect_to_db, Business
 
 app = Flask(__name__)
 
@@ -14,13 +14,15 @@ app.secret_key = "ABCDE"
 def get_business_data():
     """return json object with business info"""
 
-    # data = {"data": "hello there this is the data"}
+    # placeholder function without filters to get all businesses in db
+    # so far only used for testing to get data from server to react frontend
+    businesses = Business.query.all()
 
-    return jsonify({"data": "hello there this is the data"})
+    return jsonify({"data": businesses})
 
 
 if __name__ == "__main__":
 
-    connect_to_db(app, "postgresql:///ladybosses")
+    connect_to_db(app)
 
     app.run(host="0.0.0.0")
