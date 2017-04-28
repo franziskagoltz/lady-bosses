@@ -3,32 +3,28 @@ import React, { Component } from 'react';
 
 class CategorySelect extends Component {
 
-    render() {
-        return (
-          <div>
-            <h2> What are you looking for today? </h2>
-            <form> 
-              <div className="checkbox">
-                <label>
-                  <input type="checkbox" value="bakery" />
-                  Bakery
-                </label><br />
-                <label>
-                  <input type="checkbox" value="restaurant" />
-                  Restaurant
-                </label><br />
-                <label>
-                  <input type="checkbox" value="coffee & tea" />
-                  Coffee & Tea
-                </label><br />
-                <label>
-                  <input type="checkbox" value="desserts" />
-                  Desserts
-                </label>
-              </div>
-            </form>
-          </div>
-            )
+  render() {
+
+    const options = ["bakery", "restaurant", "coffee & tea", "desserts", "bars",
+                     "brewery", "pizza"];
+    const inputs = options.map((option, index) => {
+                    return (<label>
+                            <input type="checkbox" key={index} value={option}/>
+                            {option} <br />
+                            </label>)
+                  });
+
+      return (
+
+        <div>
+          <h2> What are you looking for today? </h2>
+          <form> 
+            <div className="checkboxes">
+              {inputs}
+            </div>
+          </form>
+        </div>
+          )
     }
 
 }
